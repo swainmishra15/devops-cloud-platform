@@ -1,13 +1,18 @@
-from datetime import datetime
+from datetime import datetime, timezone
+import os
 import socket
 
 from fastapi import FastAPI
 
 
+APP_VERSION = os.getenv("APP_VERSION", "1.0.0")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+
+
 app = FastAPI(
     title="DevOps Cloud API",
     description="API used to demonstrate cloud-native deployment and monitoring.",
-    version="1.0.0",
+    version=APP_VERSION,
 )
 
 
@@ -16,8 +21,9 @@ def home():
     return {
         "message": "DevOps Cloud Platform is running!",
         "hostname": socket.gethostname(),
-        "version": "1.0.0",
-        "timestamp": datetime.now(),
+        "version": APP_VERSION,
+        "environment": ENVIRONMENT,
+        "timestamp": datetime.now(timezone.utc),
     }
 
 
@@ -25,4 +31,6 @@ def home():
 def health():
     return {
         "status": "healthy",
+        "version": APP_VERSION,
+        "environment": ENVIRONMENT,
     }
