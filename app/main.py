@@ -19,7 +19,7 @@ app = FastAPI(
 @app.get("/")
 def home():
     return {
-        "message": "DevOps Cloud Platform is running!",
+        "message": "DevOps Cloud API v3 - Kubernetes Rolling Update Successful",
         "hostname": socket.gethostname(),
         "version": APP_VERSION,
         "environment": ENVIRONMENT,
@@ -33,10 +33,4 @@ def health():
         "status": "healthy",
         "version": APP_VERSION,
         "environment": ENVIRONMENT,
-    }
-
-    @app.get("/")
-def home():
-    return {
-        "message": "DevOps Cloud API v3 - Kubernetes Rolling Update Successful"
     }

@@ -10,7 +10,9 @@ def test_home():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json()["message"] == "DevOps Cloud Platform is running!"
+    assert response.json()["message"] == (
+        "DevOps Cloud API v3 - Kubernetes Rolling Update Successful"
+    )
 
 
 def test_health():
