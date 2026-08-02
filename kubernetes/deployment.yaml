@@ -24,12 +24,9 @@ spec:
           ports:
             - containerPort: 8000
 
-          env:
-            - name: ENVIRONMENT
-              value: "production"
-
-            - name: APP_VERSION
-              value: "3.0.0"
+          envFrom:
+            - configMapRef:
+                name: devops-api-config
 
           resources:
             requests:

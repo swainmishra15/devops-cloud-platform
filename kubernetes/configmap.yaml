@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: devops-api-config
+
+data:
+  ENVIRONMENT: "production"
+  APP_VERSION: "3.0.0"
