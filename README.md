@@ -1,109 +1,79 @@
-# Cloud-Native CI/CD & Observability Platform
+# DevOps Cloud Platform
 
-A DevOps project demonstrating automated testing, containerization, deployment, orchestration, and monitoring of a FastAPI application using Docker, GitHub Actions, AWS, Kubernetes, Prometheus, and Grafana.
+FastAPI application deployed on AWS EC2 using Docker,
+Kubernetes (K3s), GitHub Actions CI/CD and Prometheus monitoring.
+
+## Tech Stack
+- Python / FastAPI
+- Docker
+- GitHub Actions
+- Docker Hub
+- AWS EC2
+- Kubernetes / K3s
+- Prometheus
+- Git / GitHub
 
 ## Architecture
 
-```text
 Developer
-    │
-    │ git push
-    ▼
+   ↓
 GitHub
-    │
-    ▼
+   ↓
 GitHub Actions
-    │
-    ├── Test Application
-    ├── Build Docker Image
-    └── Push Image
-            │
-            ▼
-       Docker Registry
-            │
-            ▼
-          AWS
-            │
-            ▼
-       Kubernetes
-       ┌────┴────┐
-       │         │
-    App Pods   Service
-       │
-       ▼
-   Prometheus
-       │
-       ▼
-     Grafana
-```
-
-## Tech Stack
-
-**DevOps:** Docker, Kubernetes, GitHub Actions, Git  
-**Cloud:** AWS  
-**Monitoring:** Prometheus, Grafana  
-**Application:** Python, FastAPI, Pytest  
-**Automation:** Bash
+   ↓
+Tests → Docker Build → Docker Hub
+                         ↓
+                      AWS EC2
+                         ↓
+                        K3s
+                         ↓
+                  Kubernetes Service
+                         ↓
+                    FastAPI Pod
+                         ↓
+                     /metrics
+                         ↓
+                    Prometheus
 
 ## Features
-
-- Containerized FastAPI application using Docker
+- Containerized FastAPI REST API
 - Automated testing with Pytest
 - CI/CD pipeline using GitHub Actions
-- Versioned Docker image publishing
-- AWS-based deployment
-- Kubernetes deployments and services
-- Multiple replicas with self-healing
-- Liveness and readiness probes
-- Rolling application updates
-- Runtime configuration using environment variables
-- Non-root container execution
-- Prometheus metrics collection
-- Grafana monitoring dashboards
+- Docker image build and publishing
+- AWS EC2 cloud deployment
+- Kubernetes Deployment and NodePort Service
+- ConfigMap-based application configuration
+- Readiness and liveness probes
+- Kubernetes rolling updates and rollback testing
+- Horizontal replica scaling demonstration
+- Prometheus application instrumentation
+- HTTP request counter and latency metrics
+- Prometheus monitoring inside Kubernetes
 
-## CI/CD Flow
+## API Endpoints
+GET /         - Application information
+GET /health   - Application health
+GET /metrics  - Prometheus metrics
 
-```text
-Code Push → GitHub Actions → Test → Docker Build
-→ Registry → AWS → Kubernetes Deployment
-```
+## Monitoring
+Prometheus scrapes the FastAPI /metrics endpoint.
 
-## Run with Docker
+Custom metrics include:
 
-```bash
-docker build -t devops-cloud-api .
-docker run -d -p 8000:8000 --name devops-api devops-cloud-api
-```
+http_requests_total
+http_request_duration_seconds
 
-Application:
+Prometheus target health was verified using:
 
-`http://localhost:8000`
+up = 1
 
-API documentation:
+## Deployment
 
-`http://localhost:8000/docs`
+The application runs on a lightweight K3s cluster hosted
+on AWS EC2.
 
-Health check:
+The production deployment uses one application replica
+because the demo EC2 instance has limited resources.
 
-`http://localhost:8000/health`
-
-## Project Structure
-
-```text
-├── .github/workflows/    # CI/CD
-├── app/                  # FastAPI application
-├── tests/                # Automated tests
-├── kubernetes/           # Kubernetes manifests
-├── monitoring/           # Prometheus configuration
-├── scripts/              # Automation scripts
-├── Dockerfile
-└── README.md
-```
-
-## Status
-
-CI and Docker containerization are implemented. Cloud deployment, Kubernetes orchestration, and observability components are being added as the project progresses.
-
-## Author
-
-**Swain Mishra**
+Kubernetes supports scaling the deployment when additional
+resources are available.
