@@ -34,3 +34,9 @@ def health():
         "version": APP_VERSION,
         "environment": ENVIRONMENT,
     }
+
+    @app.get("/")
+def home():
+    return {
+        "message": "DevOps Cloud API v3 - Kubernetes Rolling Update Successful"
+    }
