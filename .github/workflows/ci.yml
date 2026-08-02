@@ -38,6 +38,7 @@ jobs:
           docker build \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:${{ github.sha }} \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:latest \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:v3 \
             .
 
       - name: Push Docker image
@@ -45,3 +46,4 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-cloud-api:v3
